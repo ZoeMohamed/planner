@@ -119,9 +119,13 @@ export default function DishForm({ open, dish, onSave, onClose, onDelete }) {
             <div className="form-group">
               <label htmlFor="form-cost">Harga/Porsi (Rp)</label>
               <input
-                type="number" id="form-cost" className="form-input num"
-                min="0" step="100" required value={form.cost_per_portion}
-                onChange={e => setForm(f => ({ ...f, cost_per_portion: e.target.value }))}
+                type="text" id="form-cost" className="form-input num"
+                inputMode="numeric" required
+                value={form.cost_per_portion ? Number(form.cost_per_portion).toLocaleString('id-ID') : ''}
+                onChange={e => {
+                  const raw = e.target.value.replace(/\D/g, '');
+                  setForm(f => ({ ...f, cost_per_portion: raw ? parseInt(raw, 10) : '' }));
+                }}
               />
             </div>
             <div className="form-group">
