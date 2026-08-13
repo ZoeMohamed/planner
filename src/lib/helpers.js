@@ -18,8 +18,12 @@ export function freshnessLevel(days) {
 // Helper: freshness label
 export function freshnessLabel(days) {
   if (days >= 999) return 'Belum pernah';
+  if (days < 0) {
+    const absDays = Math.abs(days);
+    return absDays === 1 ? 'Besok' : `Dalam ${absDays} hari`;
+  }
   if (days === 0) return 'Hari ini';
-  if (days === 1) return '1 hari lalu';
+  if (days === 1) return 'Kemarin';
   return `${days} hari lalu`;
 }
 
