@@ -8,6 +8,12 @@ export function useDishes() {
 
   const fetchDishes = useCallback(async () => {
     setLoading(true);
+    if (!supabase) {
+      setDishes(SEED_DISHES.map((d, i) => ({ ...d, id: i + 1 })));
+      setLoading(false);
+      return;
+    }
+    
     const { data, error } = await supabase
       .from('dishes')
       .select('*')

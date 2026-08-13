@@ -8,11 +8,26 @@ import { useDishes } from './hooks/useDishes';
 import { useWeeklyMenu } from './hooks/useWeeklyMenu';
 import { ToastProvider } from './hooks/useToast';
 import { getWeekNumber } from './lib/helpers';
+import { supabase } from './supabase';
 
 export default function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { dishes, loading, addDish, updateDish, deleteDish } = useDishes();
   const menuState = useWeeklyMenu(dishes);
+
+  if (!supabase) {
+    return (
+      <div style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        height: '100dvh', background: 'var(--nasi)', color: 'var(--arang)',
+        fontFamily: 'var(--font-body)', padding: '20px', textAlign: 'center'
+      }}>
+        <h2>Konfigurasi Supabase Belum Lengkap 🛠️</h2>
+        <p style={{ marginTop: '12px' }}>Pastikan Anda sudah menambahkan <strong>VITE_SUPABASE_URL</strong> dan <strong>VITE_SUPABASE_ANON_KEY</strong> di pengaturan Environment Variables Vercel.</p>
+        <p style={{ marginTop: '8px', fontSize: '14px', color: 'var(--abu)' }}>Setelah menambahkannya, Vercel akan otomatis melakukan build ulang.</p>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
