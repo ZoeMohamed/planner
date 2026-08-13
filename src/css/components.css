@@ -1,0 +1,1064 @@
+/* ============================================
+   MENU MINGGU — Component Styles
+   ============================================ */
+
+/* ------------------------------------------------
+   APP BAR
+   ------------------------------------------------ */
+.app-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 var(--s-4);
+  padding-top: env(safe-area-inset-top, 0px);
+  background: var(--daun);
+  color: var(--putih);
+}
+
+.app-bar__title {
+  font-family: var(--font-display);
+  font-size: var(--t-title);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.app-bar__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: var(--putih);
+  transition: background var(--dur-tap) ease-out;
+}
+
+.app-bar__btn:active {
+  background: rgba(255,255,255,.12);
+}
+
+/* ------------------------------------------------
+   DAY STRIP
+   ------------------------------------------------ */
+.day-strip {
+  position: sticky;
+  top: 56px;
+  z-index: 90;
+  display: flex;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  background: var(--putih);
+  border-bottom: 1px solid var(--garis);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.day-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.day-chip {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-1);
+  min-width: 56px;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-size: var(--t-label);
+  font-weight: 600;
+  color: var(--abu);
+  background: transparent;
+  scroll-snap-align: center;
+  transition: all var(--dur-tap) ease-out;
+  cursor: pointer;
+  user-select: none;
+}
+
+.day-chip:active {
+  transform: scale(0.95);
+}
+
+.day-chip--active {
+  background: var(--daun);
+  color: var(--putih);
+}
+
+.day-chip__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--garis);
+  transition: background 200ms ease;
+}
+
+.day-chip--complete .day-chip__dot {
+  background: var(--pandan);
+}
+
+.day-chip--active .day-chip__dot {
+  background: rgba(255,255,255,.6);
+}
+
+.day-chip--active.day-chip--complete .day-chip__dot {
+  background: var(--putih);
+}
+
+.day-chip__date {
+  font-size: var(--t-micro);
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+/* ------------------------------------------------
+   KOTAK CONTAINER (swipeable area)
+   ------------------------------------------------ */
+.kotak-container {
+  position: relative;
+  padding: var(--s-4);
+  overflow: hidden;
+  min-height: 320px;
+}
+
+.kotak-slider {
+  display: flex;
+  transition: transform var(--dur-swipe) ease-out;
+  will-change: transform;
+}
+
+.kotak-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+/* ------------------------------------------------
+   KOTAK HARI — the signature meal box
+   ------------------------------------------------ */
+.kotak-hari {
+  background: var(--putih);
+  border-radius: var(--r-kotak);
+  box-shadow: var(--shadow-kotak);
+  overflow: hidden;
+}
+
+.kotak-hari__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-3) var(--s-4);
+  background: var(--daun);
+  color: var(--putih);
+}
+
+.kotak-hari__day {
+  font-family: var(--font-display);
+  font-size: var(--t-body);
+  font-weight: 600;
+}
+
+.kotak-hari__day-date {
+  font-weight: 400;
+  opacity: 0.7;
+  margin-left: var(--s-2);
+  font-family: var(--font-body);
+  font-size: var(--t-micro);
+}
+
+.kotak-hari__cost {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--t-label);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The box grid — Lauk Utama takes left 50%, 3 slots stacked on right */
+.kotak-hari__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 3px;
+  padding: 3px;
+  background: var(--nasi);
+  min-height: 280px;
+}
+
+/* ------------------------------------------------
+   KOMPARTEMEN — individual compartment
+   ------------------------------------------------ */
+.kompartemen {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--s-3);
+  background: var(--putih);
+  border-radius: var(--r-kompartemen);
+  cursor: pointer;
+  transition: transform var(--dur-tap) ease-out;
+  position: relative;
+  min-height: 88px;
+  border: none;
+  text-align: left;
+  width: 100%;
+}
+
+.kompartemen:active {
+  transform: scale(0.98);
+}
+
+/* Lauk Utama spans all 3 rows on the left */
+.kompartemen--lauk-utama {
+  grid-row: 1 / 4;
+  grid-column: 1;
+}
+
+.kompartemen--sayur {
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.kompartemen--pelengkap {
+  grid-row: 2;
+  grid-column: 2;
+}
+
+.kompartemen--buah {
+  grid-row: 3;
+  grid-column: 2;
+}
+
+/* Compartment label */
+.kompartemen__label {
+  font-family: var(--font-body);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--abu);
+  margin-bottom: var(--s-1);
+}
+
+/* Dish name */
+.kompartemen__dish {
+  font-family: var(--font-display);
+  font-size: var(--t-dish);
+  font-weight: 600;
+  color: var(--arang);
+  line-height: 1.3;
+  flex: 1;
+}
+
+/* Freshness info row */
+.kompartemen__info {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-2);
+}
+
+/* Freshness dot */
+.freshness-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  font-family: var(--font-body);
+  font-size: var(--t-micro);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.freshness-dot__circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.freshness-dot--aman .freshness-dot__circle { background: var(--pandan); }
+.freshness-dot--agak-dekat .freshness-dot__circle { background: var(--kunyit); }
+.freshness-dot--baru .freshness-dot__circle { background: var(--cabai); }
+
+.freshness-dot--aman .freshness-dot__text { color: var(--abu); }
+.freshness-dot--agak-dekat .freshness-dot__text { color: var(--abu); }
+.freshness-dot--baru .freshness-dot__text { color: var(--cabai); }
+
+/* Cost in compartment */
+.kompartemen__cost {
+  font-family: var(--font-body);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--abu);
+  margin-top: var(--s-1);
+}
+
+/* Empty compartment state */
+.kompartemen--empty {
+  background: var(--serai);
+  border: 2px dashed var(--garis);
+  align-items: center;
+  justify-content: center;
+}
+
+.kompartemen--empty .kompartemen__label {
+  text-align: center;
+}
+
+.kompartemen__empty-text {
+  font-family: var(--font-body);
+  font-size: var(--t-label);
+  color: var(--abu);
+  text-align: center;
+}
+
+/* Repetition warning ring */
+.kompartemen--warning {
+  box-shadow: inset 0 0 0 2px var(--kunyit);
+}
+
+/* Shuffle button in compartment */
+.kompartemen__shuffle {
+  position: absolute;
+  top: var(--s-2);
+  right: var(--s-2);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--serai);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  opacity: 0.7;
+  transition: opacity var(--dur-tap) ease;
+  z-index: 2;
+}
+
+.kompartemen__shuffle:active {
+  opacity: 1;
+  transform: scale(0.9);
+}
+
+/* Dish swap animation */
+.kompartemen__dish--entering {
+  animation: dish-enter var(--dur-swap) ease-out;
+}
+
+@keyframes dish-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Isi Otomatis stagger animation */
+.kompartemen--filling {
+  animation: fill-settle 300ms ease-out both;
+}
+
+@keyframes fill-settle {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ------------------------------------------------
+   STRIP RINGKASAN (summary strip)
+   ------------------------------------------------ */
+.strip-ringkasan {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  background: var(--putih);
+  border-top: 1px solid var(--garis);
+  font-size: var(--t-label);
+  color: var(--arang);
+  font-variant-numeric: tabular-nums;
+  overflow-x: auto;
+  white-space: nowrap;
+  min-height: 48px;
+}
+
+.strip-ringkasan__item {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.strip-ringkasan__separator {
+  color: var(--garis);
+}
+
+.strip-ringkasan__warning {
+  color: var(--kunyit);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------
+   ACTION BAR (fixed bottom)
+   ------------------------------------------------ */
+.action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: var(--putih);
+  border-top: 1px solid var(--garis);
+  padding: 0 var(--s-4);
+  padding-bottom: max(var(--s-4), env(safe-area-inset-bottom, 0px));
+}
+
+.action-bar__buttons {
+  display: flex;
+  gap: var(--s-3);
+  padding-top: var(--s-3);
+}
+
+/* ------------------------------------------------
+   TOMBOL (buttons)
+   ------------------------------------------------ */
+.tombol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  height: 56px;
+  padding: 0 var(--s-5);
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--dur-tap) ease-out, box-shadow 200ms ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.tombol:active {
+  transform: scale(0.97);
+}
+
+.tombol--primary {
+  background: var(--daun);
+  color: var(--putih);
+  flex: 1;
+}
+
+.tombol--primary:active {
+  box-shadow: 0 0 0 4px rgba(27,94,58,.2);
+}
+
+.tombol--secondary {
+  background: var(--putih);
+  color: var(--pandan-ink);
+  border: 1.5px solid var(--daun);
+  flex: 0 0 auto;
+}
+
+.tombol--ghost {
+  background: none;
+  color: var(--pandan-ink);
+}
+
+.tombol--full {
+  width: 100%;
+}
+
+.tombol__icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* ------------------------------------------------
+   BOTTOM SHEET OVERLAY
+   ------------------------------------------------ */
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(18, 33, 26, 0);
+  transition: background var(--dur-sheet) ease;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.sheet-overlay--open {
+  background: rgba(18, 33, 26, .4);
+  pointer-events: auto;
+}
+
+/* ------------------------------------------------
+   BOTTOM SHEET
+   ------------------------------------------------ */
+.bottom-sheet {
+  position: relative;
+  background: var(--putih);
+  border-radius: var(--r-sheet);
+  box-shadow: var(--shadow-sheet);
+  max-height: 85dvh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform var(--dur-sheet) var(--ease-sheet);
+}
+
+.sheet-overlay--open .bottom-sheet {
+  transform: translateY(0);
+}
+
+.bottom-sheet__handle {
+  display: flex;
+  justify-content: center;
+  padding: var(--s-3) 0 var(--s-2);
+  cursor: grab;
+}
+
+.bottom-sheet__handle-bar {
+  width: 40px;
+  height: 4px;
+  background: var(--garis);
+  border-radius: var(--r-pill);
+}
+
+.bottom-sheet__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--s-4) var(--s-3);
+}
+
+.bottom-sheet__title {
+  font-family: var(--font-display);
+  font-size: var(--t-title);
+  font-weight: 600;
+  color: var(--arang);
+}
+
+.bottom-sheet__close {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--abu);
+  transition: background var(--dur-tap) ease;
+}
+
+.bottom-sheet__close:active {
+  background: var(--serai);
+}
+
+/* Filter row */
+.bottom-sheet__filters {
+  display: flex;
+  gap: var(--s-2);
+  padding: 0 var(--s-4) var(--s-3);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.bottom-sheet__filters::-webkit-scrollbar {
+  display: none;
+}
+
+/* Dish list */
+.bottom-sheet__list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 var(--s-4);
+  overscroll-behavior: contain;
+}
+
+/* Bottom sheet footer */
+.bottom-sheet__footer {
+  padding: var(--s-3) var(--s-4);
+  padding-bottom: max(var(--s-3), env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--garis);
+}
+
+/* ------------------------------------------------
+   CHIP (filter tags)
+   ------------------------------------------------ */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 var(--s-3);
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-size: var(--t-label);
+  font-weight: 500;
+  color: var(--abu);
+  background: var(--nasi);
+  border: 1.5px solid var(--garis);
+  cursor: pointer;
+  transition: all var(--dur-tap) ease-out;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.chip:active {
+  transform: scale(0.96);
+}
+
+.chip--active {
+  background: var(--serai);
+  border-color: var(--pandan);
+  color: var(--pandan-ink);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------
+   KARTU MENU (dish card in picker)
+   ------------------------------------------------ */
+.kartu-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 64px;
+  padding: var(--s-3);
+  border-radius: var(--r-kompartemen);
+  cursor: pointer;
+  transition: background var(--dur-tap) ease-out;
+  border: none;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+}
+
+.kartu-menu:active {
+  background: var(--serai);
+}
+
+.kartu-menu + .kartu-menu {
+  border-top: 1px solid var(--garis);
+}
+
+.kartu-menu--selected {
+  background: var(--serai);
+  border-left: 3px solid var(--pandan);
+}
+
+.kartu-menu__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.kartu-menu__name {
+  font-family: var(--font-display);
+  font-size: var(--t-dish);
+  font-weight: 600;
+  color: var(--arang);
+  line-height: 1.3;
+}
+
+.kartu-menu__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: 2px;
+  flex-wrap: wrap;
+}
+
+.kartu-menu__tags {
+  display: flex;
+  gap: var(--s-1);
+  flex-wrap: wrap;
+}
+
+.kartu-menu__tag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 var(--s-2);
+  border-radius: var(--r-pill);
+  font-size: var(--t-micro);
+  font-weight: 500;
+  background: var(--serai);
+  color: var(--pandan-ink);
+}
+
+.kartu-menu__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s-1);
+  flex-shrink: 0;
+}
+
+.kartu-menu__cost {
+  font-family: var(--font-body);
+  font-size: var(--t-label);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--arang);
+}
+
+.kartu-menu__add {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--daun);
+  color: var(--putih);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: transform var(--dur-tap) ease-out;
+}
+
+.kartu-menu__add:active {
+  transform: scale(0.9);
+}
+
+/* ------------------------------------------------
+   TOAST
+   ------------------------------------------------ */
+.toast {
+  position: fixed;
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--arang);
+  color: var(--putih);
+  padding: var(--s-3) var(--s-5);
+  border-radius: var(--r-pill);
+  font-size: var(--t-label);
+  font-weight: 500;
+  opacity: 0;
+  transition: all 180ms ease-out;
+  pointer-events: none;
+  z-index: 300;
+  white-space: nowrap;
+}
+
+.toast--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ------------------------------------------------
+   SPACER for fixed action bar
+   ------------------------------------------------ */
+.bottom-spacer {
+  height: 140px;
+}
+
+/* ------------------------------------------------
+   RESPONSIVE
+   ------------------------------------------------ */
+
+/* md — 600px+ */
+@media (min-width: 600px) {
+  .kotak-container {
+    padding: var(--s-5);
+  }
+
+  .kotak-slider {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-4);
+    transform: none !important;
+  }
+
+  .kotak-slide {
+    flex: none;
+  }
+
+  .day-strip {
+    justify-content: center;
+  }
+
+  .day-chip {
+    min-width: 64px;
+  }
+
+  .action-bar {
+    max-width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: var(--r-kotak) var(--r-kotak) 0 0;
+  }
+}
+
+/* lg — 900px+ */
+@media (min-width: 900px) {
+  .kotak-slider {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .tombol {
+    height: 48px;
+  }
+}
+
+/* xl — 1280px+ */
+@media (min-width: 1280px) {
+  .kotak-container {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+}
+
+/* ============================================
+   DAFTAR MENU & CRUD (Screen 6)
+   ============================================ */
+
+/* ------------------------------------------------
+   DRAWER NAV
+   ------------------------------------------------ */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(18, 33, 26, 0);
+  transition: background var(--dur-sheet) ease;
+  pointer-events: none;
+}
+
+.drawer-overlay--open {
+  background: rgba(18, 33, 26, .4);
+  pointer-events: auto;
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 280px;
+  background: var(--putih);
+  box-shadow: 4px 0 16px rgba(18,33,26,.1);
+  transform: translateX(-100%);
+  transition: transform var(--dur-sheet) var(--ease-sheet);
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-overlay--open .drawer {
+  transform: translateX(0);
+}
+
+.drawer__header {
+  padding: var(--s-4) var(--s-4) var(--s-2);
+  border-bottom: 1px solid var(--garis);
+}
+
+.drawer__title {
+  font-family: var(--font-display);
+  font-size: var(--t-title);
+  color: var(--daun);
+}
+
+.drawer__list {
+  padding: var(--s-2);
+}
+
+.drawer__item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-pill);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  font-weight: 500;
+  color: var(--arang);
+  text-align: left;
+  transition: background var(--dur-tap) ease;
+}
+
+.drawer__item:active {
+  background: var(--serai);
+}
+
+.drawer__item--active {
+  background: var(--serai);
+  color: var(--pandan-ink);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------
+   DAFTAR MENU VIEW
+   ------------------------------------------------ */
+.daftar-filters {
+  position: sticky;
+  top: 56px;
+  z-index: 90;
+  display: flex;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  background: var(--putih);
+  border-bottom: 1px solid var(--garis);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.daftar-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.daftar-list {
+  padding: var(--s-4);
+  padding-bottom: 120px; /* space for fab */
+}
+
+/* ------------------------------------------------
+   FAB (Floating Action Button)
+   ------------------------------------------------ */
+.fab {
+  position: fixed;
+  bottom: calc(max(var(--s-4), env(safe-area-inset-bottom)) + var(--s-4));
+  right: var(--s-4);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--daun);
+  color: var(--putih);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(27,94,58,.3);
+  z-index: 100;
+  transition: transform var(--dur-tap) ease;
+}
+
+.fab:active {
+  transform: scale(0.9);
+}
+
+/* ------------------------------------------------
+   FORM
+   ------------------------------------------------ */
+.bottom-sheet--full {
+  height: 90dvh;
+  max-height: 90dvh;
+}
+
+.form-menu {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.form-group {
+  padding: 0 var(--s-4) var(--s-4);
+}
+
+.form-group > label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--t-label);
+  font-weight: 600;
+  color: var(--abu);
+  margin-bottom: var(--s-2);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--s-4);
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--garis);
+  border-radius: var(--s-2);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  color: var(--arang);
+  background: var(--putih);
+  transition: border-color var(--dur-tap) ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--pandan);
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+/* ------------------------------------------------
+   TOGGLE SWITCH
+   ------------------------------------------------ */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--garis);
+  transition: .4s;
+  border-radius: var(--r-pill);
+}
+
+.toggle__slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--putih);
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle__slider {
+  background-color: var(--pandan);
+}
+
+input:checked + .toggle__slider:before {
+  transform: translateX(20px);
+}

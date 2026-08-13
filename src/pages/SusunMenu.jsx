@@ -1,0 +1,148 @@
+import { useState, useEffect, useCallback, useRef } from 'react';
+import DayStrip from '../components/DayStrip';
+import KotakHari from '../components/KotakHari';
+import DishPicker from '../components/DishPicker';
+import SummaryStrip from '../components/SummaryStrip';
+import { useToast } from '../hooks/useToast';
+import { getNextMonday } from '../lib/helpers';
+
+export default function SusunMenu({ dishes, weekMenu, currentDay, setCurrentDay, handleAutoFill, handleClearAndRefill, handleShuffle, selectDish, analysis, isDayComplete }) {
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const { showToast } = useToast();
+  const weekStart = useRef(getNextMonday()).current;
+  const hasAutoFilled = useRef(false);
+
+  // Auto-fill on first load when dishes are available
+  useEffect(() => {
+    if (dishes.length > 0 && !hasAutoFilled.current) {
+      handleAutoFill();
+      hasAutoFilled.current = true;
+    }
+  }, [dishes, handleAutoFill]);
+
+  const handleCompartmentTap = (dayIndex, slot) => {
+    setSelectedSlot({ day: dayIndex, slot });
+    setPickerOpen(true);
+  };
+
+  const handleDishSelect = (dish) => {
+    if (selectedSlot) {
+      selectDish(selectedSlot.day, selectedSlot.slot, dish);
+      setPickerOpen(false);
+      setSelectedSlot(null);
+    }
+  };
+
+  const handlePickerShuffle = () => {
+    if (selectedSlot) {
+      handleShuffle(selectedSlot.day, selectedSlot.slot);
+      setPickerOpen(false);
+      setSelectedSlot(null);
+    }
+  };
+
+  const onAutoFill = () => {
+    handleAutoFill();
+    showToast('Menu minggu depan sudah disusun.');
+  };
+
+  const onRefill = () => {
+    handleClearAndRefill();
+    showToast('Menu diacak ulang.');
+  };
+
+  // Swipe handling
+  const touchStart = useRef({ x: 0, y: 0 });
+  const swiping = useRef(false);
+
+  const onTouchStart = (e) => {
+    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    swiping.current = false;
+  };
+
+  const onTouchMove = (e) => {
+    const dx = e.touches[0].clientX - touchStart.current.x;
+    const dy = e.touches[0].clientY - touchStart.current.y;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) swiping.current = true;
+  };
+
+  const onTouchEnd = (e) => {
+    if (!swiping.current || window.innerWidth >= 600) return;
+    const dx = e.changedTouches[0].clientX - touchStart.current.x;
+    if (dx < -60 && currentDay < 5) setCurrentDay(currentDay + 1);
+    else if (dx > 60 && currentDay > 0) setCurrentDay(currentDay - 1);
+  };
+
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 600;
+
+  return (
+    <div id="view-susun">
+      <DayStrip
+        currentDay={currentDay}
+        onSelectDay={setCurrentDay}
+        weekStart={weekStart}
+        isDayComplete={isDayComplete}
+      />
+
+      <main
+        className="kotak-container"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        <div className="kotak-slider">
+          {isMobile ? (
+            <div className="kotak-slide">
+              <KotakHari
+                dayIndex={currentDay}
+                dayMenu={weekMenu[currentDay] || {}}
+                weekStart={weekStart}
+                onCompartmentTap={handleCompartmentTap}
+                onShuffle={handleShuffle}
+                weekMenu={weekMenu}
+              />
+            </div>
+          ) : (
+            Array.from({ length: 6 }, (_, i) => (
+              <div className="kotak-slide" key={i}>
+                <KotakHari
+                  dayIndex={i}
+                  dayMenu={weekMenu[i] || {}}
+                  weekStart={weekStart}
+                  onCompartmentTap={handleCompartmentTap}
+                  onShuffle={handleShuffle}
+                  weekMenu={weekMenu}
+                />
+              </div>
+            ))
+          )}
+        </div>
+      </main>
+
+      <div className="bottom-spacer" />
+
+      <footer className="action-bar safe-bottom">
+        <SummaryStrip analysis={analysis} />
+        <div className="action-bar__buttons">
+          <button className="tombol tombol--secondary" onClick={onRefill}>
+            <span className="tombol__icon">🔀</span> Acak Ulang
+          </button>
+          <button className="tombol tombol--primary" onClick={onAutoFill}>
+            <span className="tombol__icon">✨</span> Isi Otomatis
+          </button>
+        </div>
+      </footer>
+
+      <DishPicker
+        open={pickerOpen}
+        slot={selectedSlot?.slot || 'Lauk Utama'}
+        dishes={dishes}
+        currentDishId={selectedSlot ? weekMenu[selectedSlot.day]?.[selectedSlot.slot]?.id : null}
+        onSelect={handleDishSelect}
+        onShuffle={handlePickerShuffle}
+        onClose={() => { setPickerOpen(false); setSelectedSlot(null); }}
+      />
+    </div>
+  );
+}

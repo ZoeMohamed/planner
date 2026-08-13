@@ -1,0 +1,75 @@
+/* ============================================
+   MENU MINGGU — Design Tokens
+   All values from the design specification.
+   No hard-coded hex anywhere in components.
+   ============================================ */
+
+:root {
+  /* ---- Colors ---- */
+  /* Named after the Indonesian kitchen */
+  --daun:       #1B5E3A;   /* Banana leaf — brand anchor, dark headers, primary buttons */
+  --pandan:     #2F9E63;   /* Pandan leaf — active/selected state, progress, success */
+  --pandan-ink: #12603A;   /* Green text on light backgrounds (contrast-safe) */
+  --serai:      #DCEDE1;   /* Lemongrass — tints, selected-row fill, chip backgrounds */
+  --kunyit:     #E8A33D;   /* Turmeric — attention, not alarm */
+  --cabai:      #C8402F;   /* Chili — hard conflicts and destructive actions only */
+  --nasi:       #F6F7F2;   /* Steamed rice — app background */
+  --putih:      #FFFFFF;   /* White */
+  --arang:      #12211A;   /* Charcoal — body text */
+  --abu:        #5C6B62;   /* Secondary text, labels, placeholder */
+  --garis:      #DFE5DC;   /* Hairlines, dividers */
+
+  /* ---- Shadows ---- */
+  --shadow-kotak: 0 1px 2px rgba(18,33,26,.05), 0 6px 16px rgba(18,33,26,.07);
+  --shadow-sheet: 0 -8px 32px rgba(18,33,26,.16);
+
+  /* ---- Typography ---- */
+  --font-display: 'Bricolage Grotesque', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body:    'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Fluid type scale */
+  --t-display: clamp(1.75rem, 1.35rem + 1.9vw, 2.5rem);    /* screen title */
+  --t-title:   clamp(1.25rem, 1.13rem + 0.6vw, 1.5rem);    /* card + day heading */
+  --t-dish:    clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);     /* dish name in box */
+  --t-body:    1.0625rem;                                     /* 17px floor */
+  --t-label:   0.9375rem;                                     /* 15px — labels, chips */
+  --t-micro:   0.8125rem;                                     /* 13px — timestamps only */
+
+  /* ---- Spacing ---- */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+
+  /* ---- Radius ---- */
+  --r-kompartemen: 14px;          /* individual compartment */
+  --r-kotak:       20px;          /* the box shell */
+  --r-sheet:       24px 24px 0 0; /* bottom sheet */
+  --r-pill:        999px;         /* pill buttons & chips */
+
+  /* ---- Breakpoints (reference only — used in media queries) ---- */
+  /* --bp-md:  600px   big phone / small tablet */
+  /* --bp-lg:  900px   tablet / small laptop */
+  /* --bp-xl: 1280px   desktop */
+
+  /* ---- Animation ---- */
+  --ease-sheet: cubic-bezier(.32, .72, 0, 1);
+  --dur-tap:    120ms;
+  --dur-sheet:  260ms;
+  --dur-swipe:  220ms;
+  --dur-swap:   160ms;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
