@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SLOTS, PROTEIN_TAGS, METHOD_TAGS } from '../data/constants';
 
-export default function DishForm({ open, dish, onSave, onClose }) {
+export default function DishForm({ open, dish, onSave, onClose, onDelete }) {
   const [form, setForm] = useState({
     name: '', slot: SLOTS[0], protein_tag: PROTEIN_TAGS[0],
     method_tag: METHOD_TAGS[0], cost_per_portion: '', active: true,
@@ -137,7 +137,16 @@ export default function DishForm({ open, dish, onSave, onClose }) {
             </div>
           </div>
 
-          <div className="bottom-sheet__footer safe-bottom">
+          <div className="bottom-sheet__footer safe-bottom" style={{ display: 'flex', gap: '8px' }}>
+            {dish && onDelete && (
+              <button type="button" className="tombol tombol--secondary" onClick={() => {
+                if (window.confirm('Yakin ingin menghapus menu ini?')) {
+                  onDelete(dish.id);
+                }
+              }} aria-label="Hapus Menu" style={{ padding: '0 16px', color: 'var(--cabai)', borderColor: 'var(--cabai)' }}>
+                <span className="tombol__icon">🗑️</span>
+              </button>
+            )}
             <button type="submit" className="tombol tombol--primary tombol--full">
               <span className="tombol__icon">💾</span> Simpan Menu
             </button>

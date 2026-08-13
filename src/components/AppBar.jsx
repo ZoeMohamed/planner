@@ -27,14 +27,8 @@ export default function AppBar({ title, onDrawerOpen, onPrevWeek, onNextWeek }) 
           </button>
         )}
       </div>
-
-      <button className="app-bar__btn" aria-label="Opsi lainnya">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <circle cx="12" cy="6" r="1.5"/>
-          <circle cx="12" cy="12" r="1.5"/>
-          <circle cx="12" cy="18" r="1.5"/>
-        </svg>
-      </button>
+      
+      <div style={{ width: 48 }}></div>
     </header>
   );
 }

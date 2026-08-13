@@ -94,9 +94,58 @@ export function useDishes() {
     return true;
   };
 
+  const markWeekAsServed = async (weekStartIso, weekMenu) => {
+    const dishIds = new Set();
+    for (let day = 0; day < 6; day++) {
+      if (!weekMenu[day]) continue;
+      Object.values(weekMenu[day]).forEach(dish => {
+        if (dish && dish.id) dishIds.add(dish.id);
+      });
+    }
+
+    const ids = Array.from(dishIds);
+    if (ids.length === 0) return true;
+
+    // We fetch the current dishes first to keep all their other fields intact
+    const { data: currentDishes, error: fetchError } = await supabase
+      .from('dishes')
+      .select('*')
+      .in('id', ids);
+
+    if (fetchError || !currentDishes) {
+      console.error('Error fetching dishes for update:', fetchError);
+      return false;
+    }
+
+    const updatedDishes = currentDishes.map(d => ({
+      ...d,
+      last_served_date: weekStartIso,
+      updated_at: new Date().toISOString()
+    }));
+
+    const { error } = await supabase
+      .from('dishes')
+      .upsert(updatedDishes);
+
+    if (error) {
+      console.error('Error updating last_served_date:', error);
+      return false;
+    }
+
+    // Optimistically update local state
+    setDishes(prev => prev.map(d => {
+      if (ids.includes(d.id)) {
+        return { ...d, last_served_date: weekStartIso };
+      }
+      return d;
+    }));
+    
+    return true;
+  };
+
   useEffect(() => {
     fetchDishes();
   }, [fetchDishes]);
 
-  return { dishes, loading, addDish, updateDish, deleteDish, refetch: fetchDishes };
+  return { dishes, loading, addDish, updateDish, deleteDish, markWeekAsServed, refetch: fetchDishes };
 }

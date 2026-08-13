@@ -12,7 +12,7 @@ import { supabase } from './supabase';
 
 export default function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { dishes, loading, addDish, updateDish, deleteDish } = useDishes();
+  const { dishes, loading, addDish, updateDish, deleteDish, markWeekAsServed } = useDishes();
   const menuState = useWeeklyMenu(dishes);
 
   if (!supabase) {
@@ -54,10 +54,10 @@ export default function App() {
 
         <Routes>
           <Route path="/" element={
-            <SusunMenu dishes={dishes} {...menuState} />
+            <SusunMenu dishes={dishes} markWeekAsServed={markWeekAsServed} {...menuState} />
           } />
           <Route path="/daftar" element={
-            <DaftarMenu dishes={dishes} addDish={addDish} updateDish={updateDish} />
+            <DaftarMenu dishes={dishes} addDish={addDish} updateDish={updateDish} deleteDish={deleteDish} />
           } />
         </Routes>
       </ToastProvider>

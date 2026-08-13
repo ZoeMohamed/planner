@@ -4,7 +4,9 @@ import KotakHari from '../components/KotakHari';
 import DishPicker from '../components/DishPicker';
 import SummaryStrip from '../components/SummaryStrip';
 import { useToast } from '../hooks/useToast';
-export default function SusunMenu({ dishes, weekMenu, weekStart, loadingMenu, currentDay, setCurrentDay, handleAutoFill, handleClearAndRefill, handleShuffle, selectDish, analysis, isDayComplete }) {
+import { getNextMonday, toISODate } from '../lib/helpers';
+
+export default function SusunMenu({ dishes, weekMenu, weekStart, loadingMenu, currentDay, setCurrentDay, handleAutoFill, handleClearAndRefill, handleShuffle, selectDish, analysis, isDayComplete, markWeekAsServed }) {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const { showToast } = useToast();
@@ -47,6 +49,20 @@ export default function SusunMenu({ dishes, weekMenu, weekStart, loadingMenu, cu
   const onRefill = () => {
     handleClearAndRefill();
     showToast('Menu diacak ulang.');
+  };
+
+  const onMarkDone = async () => {
+    if (analysis.filledDays === 0) {
+      showToast('Menu masih kosong!');
+      return;
+    }
+    const isoDate = toISODate(weekStart);
+    const success = await markWeekAsServed(isoDate, weekMenu);
+    if (success) {
+      showToast('Tanggal masak diperbarui!');
+    } else {
+      showToast('Gagal memperbarui tanggal masak.');
+    }
   };
 
   // Swipe handling
@@ -132,11 +148,14 @@ export default function SusunMenu({ dishes, weekMenu, weekStart, loadingMenu, cu
       <footer className="action-bar safe-bottom">
         <SummaryStrip analysis={analysis} />
         <div className="action-bar__buttons">
-          <button className="tombol tombol--secondary" onClick={onRefill}>
-            <span className="tombol__icon">🔀</span> Acak Ulang
+          <button className="tombol tombol--secondary" onClick={onRefill} aria-label="Acak Ulang" style={{ flex: '0 0 auto', padding: '0 16px' }}>
+            <span className="tombol__icon">🔀</span>
           </button>
-          <button className="tombol tombol--primary" onClick={onAutoFill}>
+          <button className="tombol tombol--secondary" onClick={onAutoFill} style={{ flex: 1 }}>
             <span className="tombol__icon">✨</span> Isi Otomatis
+          </button>
+          <button className="tombol tombol--primary" onClick={onMarkDone} style={{ flex: 1 }}>
+            <span className="tombol__icon">✓</span> Selesai
           </button>
         </div>
       </footer>

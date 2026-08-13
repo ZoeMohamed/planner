@@ -4,7 +4,7 @@ import { formatRupiah } from '../lib/helpers';
 import DishForm from '../components/DishForm';
 import { useToast } from '../hooks/useToast';
 
-export default function DaftarMenu({ dishes, addDish, updateDish }) {
+export default function DaftarMenu({ dishes, addDish, updateDish, deleteDish }) {
   const [filterSlot, setFilterSlot] = useState('semua');
   const [formOpen, setFormOpen] = useState(false);
   const [editDish, setEditDish] = useState(null);
@@ -102,6 +102,12 @@ export default function DaftarMenu({ dishes, addDish, updateDish }) {
         open={formOpen}
         dish={editDish}
         onSave={handleSave}
+        onDelete={async (id) => {
+          await deleteDish(id);
+          showToast('Menu dihapus');
+          setFormOpen(false);
+          setEditDish(null);
+        }}
         onClose={() => { setFormOpen(false); setEditDish(null); }}
       />
     </div>
