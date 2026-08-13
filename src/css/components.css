@@ -796,6 +796,12 @@
     justify-content: center;
   }
 
+  .kotak-slide--active .kotak-hari {
+    outline: 3px solid var(--daun);
+    outline-offset: 2px;
+    transition: outline 0.2s ease-out;
+  }
+
   .day-chip {
     min-width: 64px;
   }

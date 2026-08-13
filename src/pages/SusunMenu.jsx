@@ -89,6 +89,16 @@ export default function SusunMenu({ dishes, weekMenu, weekStart, loadingMenu, cu
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 600;
 
+  useEffect(() => {
+    if (!isMobile) {
+      const el = document.getElementById(`day-card-${currentDay}`);
+      if (el) {
+        // Find the scroll container (window) and scroll the element into view
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [currentDay, isMobile]);
+
   return (
     <div id="view-susun" style={{ position: 'relative' }}>
       {loadingMenu && (
@@ -128,7 +138,11 @@ export default function SusunMenu({ dishes, weekMenu, weekStart, loadingMenu, cu
             </div>
           ) : (
             Array.from({ length: 6 }, (_, i) => (
-              <div className="kotak-slide" key={i}>
+              <div 
+                className={`kotak-slide ${currentDay === i ? 'kotak-slide--active' : ''}`} 
+                key={i} 
+                id={`day-card-${i}`}
+              >
                 <KotakHari
                   dayIndex={i}
                   dayMenu={weekMenu[i] || {}}
