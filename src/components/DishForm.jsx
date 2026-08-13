@@ -38,8 +38,6 @@ export default function DishForm({ open, dish, onSave, onClose, onDelete }) {
     });
   };
 
-  const allMethods = [...METHOD_TAGS, 'segar'];
-
   return (
     <div
       className={`sheet-overlay ${open ? 'sheet-overlay--open' : ''}`}
@@ -103,7 +101,7 @@ export default function DishForm({ open, dish, onSave, onClose, onDelete }) {
           <div className="form-group">
             <label>Cara Masak</label>
             <div className="chip-group">
-              {allMethods.map(m => (
+              {METHOD_TAGS.map(m => (
                 <label key={m} className={`chip ${form.method_tag === m ? 'chip--active' : ''}`}>
                   <input type="radio" name="method" value={m} className="sr-only"
                     checked={form.method_tag === m}
