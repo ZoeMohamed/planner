@@ -4,13 +4,10 @@ import KotakHari from '../components/KotakHari';
 import DishPicker from '../components/DishPicker';
 import SummaryStrip from '../components/SummaryStrip';
 import { useToast } from '../hooks/useToast';
-import { getNextMonday } from '../lib/helpers';
-
-export default function SusunMenu({ dishes, weekMenu, currentDay, setCurrentDay, handleAutoFill, handleClearAndRefill, handleShuffle, selectDish, analysis, isDayComplete }) {
+export default function SusunMenu({ dishes, weekMenu, weekStart, loadingMenu, currentDay, setCurrentDay, handleAutoFill, handleClearAndRefill, handleShuffle, selectDish, analysis, isDayComplete }) {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const { showToast } = useToast();
-  const weekStart = useRef(getNextMonday()).current;
   const hasAutoFilled = useRef(false);
 
   // Auto-fill on first load when dishes are available
@@ -77,7 +74,17 @@ export default function SusunMenu({ dishes, weekMenu, currentDay, setCurrentDay,
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 600;
 
   return (
-    <div id="view-susun">
+    <div id="view-susun" style={{ position: 'relative' }}>
+      {loadingMenu && (
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(255,255,255,0.7)', zIndex: 10,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          Memuat menu minggu ini...
+        </div>
+      )}
+
       <DayStrip
         currentDay={currentDay}
         onSelectDay={setCurrentDay}

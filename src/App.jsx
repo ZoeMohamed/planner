@@ -45,7 +45,12 @@ export default function App() {
     <BrowserRouter>
       <ToastProvider>
         <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        <AppBar title={`Minggu ${getWeekNumber()}`} onDrawerOpen={() => setDrawerOpen(true)} />
+        <AppBar 
+          title={`Minggu ${getWeekNumber(menuState.weekStart)}`} 
+          onDrawerOpen={() => setDrawerOpen(true)}
+          onPrevWeek={menuState.prevWeek}
+          onNextWeek={menuState.nextWeek}
+        />
 
         <Routes>
           <Route path="/" element={

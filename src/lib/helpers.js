@@ -29,20 +29,29 @@ export function formatRupiah(amount) {
 }
 
 // Helper: get current ISO week number
-export function getWeekNumber() {
-  const now = new Date();
+export function getWeekNumber(date = new Date()) {
+  const now = new Date(date);
+  now.setHours(0, 0, 0, 0);
   const start = new Date(now.getFullYear(), 0, 1);
   const diff = now - start;
   const oneWeek = 604800000;
   return Math.ceil(((diff / oneWeek) + start.getDay() + 1) / 1);
 }
 
-// Helper: get next Monday
-export function getNextMonday() {
-  const d = new Date();
+// Helper: get next Monday (if called without args, gets next Monday from today)
+export function getNextMonday(date = new Date()) {
+  const d = new Date(date);
   const day = d.getDay();
   const daysUntilMonday = day === 0 ? 1 : (8 - day);
   d.setDate(d.getDate() + daysUntilMonday);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+// Helper: Add weeks to a date
+export function addWeeks(date, weeks) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + (weeks * 7));
   return d;
 }
 
@@ -52,7 +61,10 @@ export function formatShortDate(date) {
   return `${date.getDate()} ${months[date.getMonth()]}`;
 }
 
-// Format date as ISO string (YYYY-MM-DD)
+// Format date as ISO string (YYYY-MM-DD) in local timezone
 export function toISODate(date) {
-  return date.toISOString().split('T')[0];
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
 }
